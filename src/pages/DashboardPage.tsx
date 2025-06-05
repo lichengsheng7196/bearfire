@@ -307,7 +307,7 @@ const DashboardPage = () => {
         {renderProductManagerActions()}
         <Link to="/product-pool" className="flex items-center gap-2 rounded-2xl border border-neutral-200 bg-white/80 p-6 shadow-xl backdrop-blur-md transition-all hover:scale-105 hover:shadow-2xl">
           <Boxes className="h-7 w-7 text-blue-600" />
-          <span className="text-base font-semibold text-neutral-800">查看选品池</span>
+          <span className="text-base font-semibold text-neutral-800">查看选品管理</span>
         </Link>
         <Link to="/requirements" className="flex items-center gap-2 rounded-2xl border border-neutral-200 bg-white/80 p-6 shadow-xl backdrop-blur-md transition-all hover:scale-105 hover:shadow-2xl">
           <FileText className="h-7 w-7 text-green-600" />

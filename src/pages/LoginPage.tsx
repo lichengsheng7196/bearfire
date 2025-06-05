@@ -1,10 +1,22 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Atom, Loader2, RefreshCw } from 'lucide-react';
+import { IconAtom, IconLoader2, IconRefresh } from '@tabler/icons-react';
 import { useAuthStore } from '../stores/authStore';
 import toast from 'react-hot-toast';
 
-const getRandomCode = () => Math.floor(1000 + Math.random() * 9000).toString();
+const getRandomCode = () => {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // 排除容易混淆的字符
+  let code = '';
+  for (let i = 0; i < 4; i++) {
+    let ch = chars.charAt(Math.floor(Math.random() * chars.length));
+    // 如果是字母，50%概率转为小写
+    if (/[A-Z]/.test(ch) && Math.random() < 0.5) {
+      ch = ch.toLowerCase();
+    }
+    code += ch;
+  }
+  return code;
+};
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -24,7 +36,7 @@ const LoginPage = () => {
       toast.error('请填写所有字段');
       return;
     }
-    if (verificationCode !== code) {
+    if (verificationCode.trim().toUpperCase() !== code.toUpperCase()) {
       toast.error('验证码错误');
       refreshCode();
       return;
@@ -32,7 +44,7 @@ const LoginPage = () => {
     setIsLoading(true);
     try {
       await login(username, password);
-      navigate('/product-pool'); // 所有用户统一跳转到选品池列表
+      navigate('/product-pool'); // 所有用户统一跳转到选品管理列表
       toast.success('登录成功');
     } catch (error) {
       toast.error('用户名或密码错误');
@@ -47,7 +59,7 @@ const LoginPage = () => {
       <div className="w-full max-w-md rounded-2xl border border-neutral-200 bg-white/90 p-10 shadow-2xl backdrop-blur-md animate-fade-in">
         <div className="mb-8 flex flex-col items-center justify-center gap-3">
           <span className="flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-500 via-purple-500 to-green-400 p-3 shadow-lg">
-            <Atom className="h-14 w-14 text-white drop-shadow-lg" />
+            <IconAtom className="h-14 w-14 text-white drop-shadow-lg" />
           </span>
           <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-green-600 drop-shadow-md">
             BEARFIRE<span className="ml-2 text-2xl font-bold text-green-600">产品开发工作台</span>
@@ -97,7 +109,7 @@ const LoginPage = () => {
                 title="点击刷新验证码"
               >
                 {code}
-                <RefreshCw className="ml-2 h-4 w-4 text-neutral-400" />
+                <IconRefresh className="ml-2 h-4 w-4 text-neutral-400" />
               </button>
             </div>
           </div>
@@ -108,7 +120,7 @@ const LoginPage = () => {
           >
             {isLoading ? (
               <div className="flex items-center justify-center gap-2">
-                <Loader2 className="h-5 w-5 animate-spin" />
+                <IconLoader2 className="h-5 w-5 animate-spin" />
                 <span>登录中...</span>
               </div>
             ) : (

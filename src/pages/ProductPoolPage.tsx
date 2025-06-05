@@ -61,10 +61,10 @@ const ProductPoolPage = () => {
 
       const ws = XLSX.utils.json_to_sheet(data);
       const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, '选品池列表');
+      XLSX.utils.book_append_sheet(wb, ws, '选品管理列表');
       const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
       const dataBlob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      saveAs(dataBlob, `选品池列表_${formatDateTime(new Date().toISOString())}.xlsx`);
+      saveAs(dataBlob, `选品管理列表_${formatDateTime(new Date().toISOString())}.xlsx`);
       toast.success('导出成功');
     } catch (error) {
       toast.error('导出失败');
@@ -88,7 +88,7 @@ const ProductPoolPage = () => {
     <div className="mx-auto max-w-7xl p-4">
       <div className="rounded-2xl bg-white/80 shadow-2xl backdrop-blur-md p-8 animate-fade-in">
         <div className="mb-8 flex items-center justify-between">
-          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-green-600 drop-shadow-md">选品池</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-green-600 drop-shadow-md">选品管理</h1>
           <div className="flex gap-4">
             <button
               onClick={handleExport}

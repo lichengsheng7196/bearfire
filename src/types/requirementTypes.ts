@@ -48,6 +48,8 @@ export interface Requirement {
     size: number;
     uploadedAt: string;
   }[];
+  image?: string;
+  seoKeyword?: string;
 }
 
 export interface RequirementFormData {

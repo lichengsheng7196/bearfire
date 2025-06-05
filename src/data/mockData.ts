@@ -135,6 +135,7 @@ export const mockRequirements: RequirementType[] = [
   {
     id: 'req-1',
     title: '高端台钓鱼竿新品开发',
+    image: 'https://picsum.photos/seed/req-1/80/80',
     description: '开发一款面向专业钓鱼爱好者的高端台钓鱼竿，采用碳素材质，注重手感和耐用性',
     storeType: 'self_operated',
     category: 'fishing_rod',
@@ -169,6 +170,7 @@ export const mockRequirements: RequirementType[] = [
   {
     id: 'req-2',
     title: '入门级路亚钓箱开发',
+    image: 'https://picsum.photos/seed/req-2/80/80',
     description: '开发一款适合初学者的路亚钓箱，注重实用性和性价比',
     storeType: 'pop',
     category: 'fishing_accessory',
@@ -187,6 +189,7 @@ export const mockRequirements: RequirementType[] = [
   {
     id: 'req-3',
     title: '高性价比双刀剪开发',
+    image: 'https://picsum.photos/seed/req-3/80/80',
     description: '开发一款高性价比的双刀剪，适合日常钓鱼使用',
     storeType: 'self_operated',
     category: 'fishing_accessory',
