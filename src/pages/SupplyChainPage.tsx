@@ -19,39 +19,43 @@ const mockSupplyChains = [
 
 const SupplyChainPage: React.FC = () => {
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-white rounded shadow mt-8">
-      <h2 className="text-2xl font-bold mb-6">供应链管理</h2>
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-2">供应链流程（占位）</h3>
-        <div className="flex gap-4 mb-4">
-          <div className="flex-1 p-4 bg-gray-50 rounded text-center">原材料采购</div>
-          <div className="flex-1 p-4 bg-gray-50 rounded text-center">生产制造</div>
-          <div className="flex-1 p-4 bg-gray-50 rounded text-center">质检入库</div>
-          <div className="flex-1 p-4 bg-gray-50 rounded text-center">物流发货</div>
+    <div className="mx-auto max-w-5xl p-6">
+      <div className="rounded-2xl bg-white/80 shadow-2xl backdrop-blur-md p-8 animate-fade-in">
+        <h2 className="mb-8 text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-green-600 drop-shadow-md">供应链管理</h2>
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-blue-700">供应链流程（占位）</h3>
+          <div className="flex gap-4 mb-6">
+            <div className="flex-1 p-4 bg-gradient-to-br from-blue-100 via-white to-purple-100 rounded-xl text-center font-semibold shadow">原材料采购</div>
+            <div className="flex-1 p-4 bg-gradient-to-br from-green-100 via-white to-blue-100 rounded-xl text-center font-semibold shadow">生产制造</div>
+            <div className="flex-1 p-4 bg-gradient-to-br from-yellow-100 via-white to-blue-100 rounded-xl text-center font-semibold shadow">质检入库</div>
+            <div className="flex-1 p-4 bg-gradient-to-br from-purple-100 via-white to-green-100 rounded-xl text-center font-semibold shadow">物流发货</div>
+          </div>
         </div>
-      </div>
-      <div>
-        <h3 className="text-lg font-semibold mb-2">供应链列表</h3>
-        <table className="w-full border text-sm">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border px-3 py-2">供应商</th>
-              <th className="border px-3 py-2">产品</th>
-              <th className="border px-3 py-2">当前环节</th>
-              <th className="border px-3 py-2">最后更新时间</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mockSupplyChains.map(item => (
-              <tr key={item.id}>
-                <td className="border px-3 py-2">{item.supplier}</td>
-                <td className="border px-3 py-2">{item.product}</td>
-                <td className="border px-3 py-2">{item.status}</td>
-                <td className="border px-3 py-2">{item.lastUpdate}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-blue-700">供应链列表</h3>
+          <div className="overflow-x-auto rounded-2xl bg-white/90 shadow-xl">
+            <table className="min-w-full divide-y divide-neutral-200">
+              <thead>
+                <tr className="bg-neutral-50">
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">供应商</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">产品</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">当前环节</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">最后更新时间</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-neutral-200 bg-white/80">
+                {mockSupplyChains.map(item => (
+                  <tr key={item.id} className="hover:bg-blue-50/40 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-800">{item.supplier}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-800">{item.product}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-700 font-semibold">{item.status}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600">{item.lastUpdate}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );

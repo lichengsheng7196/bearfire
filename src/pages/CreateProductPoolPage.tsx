@@ -800,655 +800,602 @@ const CreateProductPoolPage = () => {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => navigate('/product-pool')}
-            className="btn-outline flex items-center gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            返回列表
-          </button>
-          <h1 className="text-2xl font-bold text-neutral-800">创建选品</h1>
-        </div>
-        <div className="flex gap-4">
-          <button
-            onClick={() => setShowSupplierModal(true)}
-            className="btn-secondary flex items-center gap-2"
-          >
-            <Building2 className="h-4 w-4" />
-            选择供应商
-          </button>
-          <button
-            onClick={handleEvaluate}
-            disabled={isAnalyzing || !form.productName || !form.description || !form.category}
-            className="btn-secondary flex items-center gap-2"
-          >
-            {isAnalyzing ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                评估中...
-              </>
-            ) : (
-              <>
-                <BarChart2 className="h-4 w-4" />
-                产品评估
-              </>
-            )}
-          </button>
-          <button
-            onClick={handleAnalyze}
-            disabled={isAnalyzing || !form.productName || !form.description || !form.category}
-            className="btn-secondary flex items-center gap-2"
-          >
-            {isAnalyzing ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                分析中...
-              </>
-            ) : (
-              <>
-                <Sparkles className="h-4 w-4" />
-                AI分析
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Basic Information */}
-        <div className="rounded-lg border border-neutral-200 bg-white p-6">
-          <h2 className="mb-4 text-lg font-semibold text-neutral-800">基本信息</h2>
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                产品名称 <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={form.productName}
-                onChange={(e) => setForm(prev => ({ ...prev, productName: e.target.value }))}
-                className={`w-full rounded-md border ${errors.productName ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
-                placeholder="请输入产品名称"
-              />
-              {errors.productName && (
-                <p className="mt-1 text-sm text-red-500">{errors.productName}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                产品类别 <span className="text-red-500">*</span>
-              </label>
-              <select
-                value={form.category}
-                onChange={(e) => setForm(prev => ({ ...prev, category: e.target.value as ProductCategory }))}
-                className={`w-full rounded-md border ${errors.category ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
-              >
-                <option value="fishing_rod">鱼竿</option>
-                <option value="fishing_reel">渔轮</option>
-                <option value="fishing_line">渔线</option>
-                <option value="fishing_hook">鱼钩</option>
-                <option value="fishing_lure">路亚</option>
-                <option value="fishing_accessory">渔具配件</option>
-                <option value="fishing_apparel">钓鱼服饰</option>
-              </select>
-              {errors.category && (
-                <p className="mt-1 text-sm text-red-500">{errors.category}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                关联需求 <span className="text-red-500">*</span>
-              </label>
-              <select
-                value={form.requirementId}
-                onChange={(e) => setForm(prev => ({ ...prev, requirementId: e.target.value }))}
-                className={`w-full rounded-md border ${errors.requirementId ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
-              >
-                <option value="">请选择需求</option>
-                {requirements.map(req => (
-                  <option key={req.id} value={req.id}>
-                    {req.title}
-                  </option>
-                ))}
-              </select>
-              {errors.requirementId && (
-                <p className="mt-1 text-sm text-red-500">{errors.requirementId}</p>
-              )}
-            </div>
-
-            <div className="sm:col-span-2">
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                供应商 <span className="text-red-500">*</span>
-              </label>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-medium">供应商信息</h3>
-                  <button
-                    type="button"
-                    onClick={() => setShowSupplierModal(true)}
-                    className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
-                  >
-                    <PlusCircle className="w-4 h-4 mr-1" />
-                    选择供应商
-                  </button>
-                </div>
-                
-                {form.supplierId && selectedSupplier && (
-                  <div className="p-4 bg-white rounded-lg shadow">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h4 className="text-lg font-medium">{selectedSupplier.name}</h4>
-                        <div className="mt-2 space-y-1 text-sm text-gray-600">
-                          <p className="flex items-center">
-                            <Users className="w-4 h-4 mr-2" />
-                            联系人: {selectedSupplier.contactPerson}
-                          </p>
-                          <p className="flex items-center">
-                            <Phone className="w-4 h-4 mr-2" />
-                            电话: {selectedSupplier.phoneNumber}
-                          </p>
-                          {selectedSupplier.email && (
-                            <p className="flex items-center">
-                              <Mail className="w-4 h-4 mr-2" />
-                              邮箱: {selectedSupplier.email}
-                            </p>
-                          )}
-                          <p className="flex items-center">
-                            <Building2 className="w-4 h-4 mr-2" />
-                            地址: {selectedSupplier.address.province} {selectedSupplier.address.city} {selectedSupplier.address.address}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="flex items-center">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`w-4 h-4 ${
-                                i < selectedSupplier.rating
-                                  ? 'text-yellow-400 fill-current'
-                                  : 'text-gray-300'
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {selectedSupplier.performanceMetrics && (
-                      <div className="mt-4 grid grid-cols-2 gap-4">
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                          <p className="text-sm font-medium text-gray-600">准时交付率</p>
-                          <p className="text-lg font-semibold">
-                            {selectedSupplier.performanceMetrics.onTimeDeliveryRate ?? 'N/A'}%
-                          </p>
-                        </div>
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                          <p className="text-sm font-medium text-gray-600">质量合格率</p>
-                          <p className="text-lg font-semibold">
-                            {selectedSupplier.performanceMetrics.qualityPassRate ?? 'N/A'}%
-                          </p>
-                        </div>
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                          <p className="text-sm font-medium text-gray-600">响应时间</p>
-                          <p className="text-lg font-semibold">
-                            {selectedSupplier.performanceMetrics.responseTime ?? 'N/A'}小时
-                          </p>
-                        </div>
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                          <p className="text-sm font-medium text-gray-600">合作年限</p>
-                          <p className="text-lg font-semibold">
-                            {selectedSupplier.performanceMetrics.cooperationYears ?? 'N/A'}年
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                    
-                    {selectedSupplier.contracts && selectedSupplier.contracts.length > 0 && (
-                      <div className="mt-4">
-                        <h5 className="text-sm font-medium text-gray-600">合同信息</h5>
-                        <div className="mt-2 space-y-2">
-                          {selectedSupplier.contracts.map(contract => (
-                            <div key={contract.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                              <div>
-                                <p className="font-medium">{contract.title}</p>
-                                <p className="text-sm text-gray-500">
-                                  签署日期: {new Date(contract.signDate).toLocaleDateString()}
-                                </p>
-                              </div>
-                              {contract.fileUrl && (
-                                <a
-                                  href={contract.fileUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-blue-600 hover:text-blue-800"
-                                >
-                                  <FileText className="w-5 h-5" />
-                                </a>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
+    <div className="mx-auto max-w-3xl p-4">
+      <div className="rounded-2xl bg-white/80 shadow-2xl backdrop-blur-md p-8 animate-fade-in">
+        <h1 className="mb-8 text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-green-600 drop-shadow-md">创建新选品</h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Basic Information */}
+          <div className="rounded-lg border border-neutral-200 bg-white p-6">
+            <h2 className="mb-4 text-lg font-semibold text-neutral-800">基本信息</h2>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  产品名称 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={form.productName}
+                  onChange={(e) => setForm(prev => ({ ...prev, productName: e.target.value }))}
+                  className={`w-full rounded-md border ${errors.productName ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
+                  placeholder="请输入产品名称"
+                />
+                {errors.productName && (
+                  <p className="mt-1 text-sm text-red-500">{errors.productName}</p>
                 )}
               </div>
-            </div>
 
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                工厂价格 <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                value={form.factoryPrice}
-                onChange={(e) => setForm(prev => ({ ...prev, factoryPrice: e.target.value }))}
-                className={`w-full rounded-md border ${errors.factoryPrice ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
-                placeholder="请输入工厂价格"
-                min="0"
-                step="0.01"
-              />
-              {errors.factoryPrice && (
-                <p className="mt-1 text-sm text-red-500">{errors.factoryPrice}</p>
-              )}
-            </div>
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  产品类别 <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={form.category}
+                  onChange={(e) => setForm(prev => ({ ...prev, category: e.target.value as ProductCategory }))}
+                  className={`w-full rounded-md border ${errors.category ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
+                >
+                  <option value="fishing_rod">鱼竿</option>
+                  <option value="fishing_reel">渔轮</option>
+                  <option value="fishing_line">渔线</option>
+                  <option value="fishing_hook">鱼钩</option>
+                  <option value="fishing_lure">路亚</option>
+                  <option value="fishing_accessory">渔具配件</option>
+                  <option value="fishing_apparel">钓鱼服饰</option>
+                </select>
+                {errors.category && (
+                  <p className="mt-1 text-sm text-red-500">{errors.category}</p>
+                )}
+              </div>
 
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                税费
-              </label>
-              <input
-                type="number"
-                value={form.tax}
-                onChange={(e) => setForm(prev => ({ ...prev, tax: e.target.value }))}
-                className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
-                placeholder="请输入税费"
-                min="0"
-                step="0.01"
-              />
-            </div>
-          </div>
-        </div>
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  关联需求 <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={form.requirementId}
+                  onChange={(e) => setForm(prev => ({ ...prev, requirementId: e.target.value }))}
+                  className={`w-full rounded-md border ${errors.requirementId ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
+                >
+                  <option value="">请选择需求</option>
+                  {requirements.map(req => (
+                    <option key={req.id} value={req.id}>
+                      {req.title}
+                    </option>
+                  ))}
+                </select>
+                {errors.requirementId && (
+                  <p className="mt-1 text-sm text-red-500">{errors.requirementId}</p>
+                )}
+              </div>
 
-        {/* Specifications */}
-        <div className="rounded-lg border border-neutral-200 bg-white p-6">
-          <h2 className="mb-4 text-lg font-semibold text-neutral-800">规格信息</h2>
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                尺寸规格
-              </label>
-              <input
-                type="text"
-                value={form.specifications.dimensions}
-                onChange={(e) => setForm(prev => ({
-                  ...prev,
-                  specifications: { ...prev.specifications, dimensions: e.target.value }
-                }))}
-                className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
-                placeholder="请输入尺寸规格，如：长度4.5米，收缩后110厘米"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                重量
-              </label>
-              <input
-                type="text"
-                value={form.specifications.weight}
-                onChange={(e) => setForm(prev => ({
-                  ...prev,
-                  specifications: { ...prev.specifications, weight: e.target.value }
-                }))}
-                className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
-                placeholder="请输入重量，如：207克"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                材质
-              </label>
-              <div className="space-y-2">
-                {form.specifications.materials.map((material, index) => (
-                  <div key={index} className="flex gap-2">
-                    <input
-                      type="text"
-                      value={material}
-                      onChange={(e) => {
-                        const newMaterials = [...form.specifications.materials];
-                        newMaterials[index] = e.target.value;
-                        setForm(prev => ({
-                          ...prev,
-                          specifications: { ...prev.specifications, materials: newMaterials }
-                        }));
-                      }}
-                      className="flex-1 rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
-                      placeholder="请输入材质"
-                    />
+              <div className="sm:col-span-2">
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  供应商 <span className="text-red-500">*</span>
+                </label>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-medium">供应商信息</h3>
                     <button
                       type="button"
-                      onClick={() => {
-                        const newMaterials = form.specifications.materials.filter((_, i) => i !== index);
-                        setForm(prev => ({
-                          ...prev,
-                          specifications: { ...prev.specifications, materials: newMaterials }
-                        }));
-                      }}
-                      className="btn-outline px-2 py-2"
+                      onClick={() => setShowSupplierModal(true)}
+                      className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <PlusCircle className="w-4 h-4 mr-1" />
+                      选择供应商
                     </button>
                   </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setForm(prev => ({
-                      ...prev,
-                      specifications: {
-                        ...prev.specifications,
-                        materials: [...prev.specifications.materials, '']
-                      }
-                    }));
-                  }}
-                  className="btn-outline flex items-center gap-2"
-                >
-                  <PlusCircle className="h-4 w-4" />
-                  添加材质
-                </button>
+                  
+                  {form.supplierId && selectedSupplier && (
+                    <div className="p-4 bg-white rounded-lg shadow">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h4 className="text-lg font-medium">{selectedSupplier.name}</h4>
+                          <div className="mt-2 space-y-1 text-sm text-gray-600">
+                            <p className="flex items-center">
+                              <Users className="w-4 h-4 mr-2" />
+                              联系人: {selectedSupplier.contactPerson}
+                            </p>
+                            <p className="flex items-center">
+                              <Phone className="w-4 h-4 mr-2" />
+                              电话: {selectedSupplier.phoneNumber}
+                            </p>
+                            {selectedSupplier.email && (
+                              <p className="flex items-center">
+                                <Mail className="w-4 h-4 mr-2" />
+                                邮箱: {selectedSupplier.email}
+                              </p>
+                            )}
+                            <p className="flex items-center">
+                              <Building2 className="w-4 h-4 mr-2" />
+                              地址: {selectedSupplier.address.province} {selectedSupplier.address.city} {selectedSupplier.address.address}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center">
+                          <div className="flex items-center">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${
+                                  i < selectedSupplier.rating
+                                    ? 'text-yellow-400 fill-current'
+                                    : 'text-gray-300'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {selectedSupplier.performanceMetrics && (
+                        <div className="mt-4 grid grid-cols-2 gap-4">
+                          <div className="p-3 bg-gray-50 rounded-lg">
+                            <p className="text-sm font-medium text-gray-600">准时交付率</p>
+                            <p className="text-lg font-semibold">
+                              {selectedSupplier.performanceMetrics.onTimeDeliveryRate ?? 'N/A'}%
+                            </p>
+                          </div>
+                          <div className="p-3 bg-gray-50 rounded-lg">
+                            <p className="text-sm font-medium text-gray-600">质量合格率</p>
+                            <p className="text-lg font-semibold">
+                              {selectedSupplier.performanceMetrics.qualityPassRate ?? 'N/A'}%
+                            </p>
+                          </div>
+                          <div className="p-3 bg-gray-50 rounded-lg">
+                            <p className="text-sm font-medium text-gray-600">响应时间</p>
+                            <p className="text-lg font-semibold">
+                              {selectedSupplier.performanceMetrics.responseTime ?? 'N/A'}小时
+                            </p>
+                          </div>
+                          <div className="p-3 bg-gray-50 rounded-lg">
+                            <p className="text-sm font-medium text-gray-600">合作年限</p>
+                            <p className="text-lg font-semibold">
+                              {selectedSupplier.performanceMetrics.cooperationYears ?? 'N/A'}年
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {selectedSupplier.contracts && selectedSupplier.contracts.length > 0 && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-medium text-gray-600">合同信息</h5>
+                          <div className="mt-2 space-y-2">
+                            {selectedSupplier.contracts.map(contract => (
+                              <div key={contract.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                <div>
+                                  <p className="font-medium">{contract.title}</p>
+                                  <p className="text-sm text-gray-500">
+                                    签署日期: {new Date(contract.signDate).toLocaleDateString()}
+                                  </p>
+                                </div>
+                                {contract.fileUrl && (
+                                  <a
+                                    href={contract.fileUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-600 hover:text-blue-800"
+                                  >
+                                    <FileText className="w-5 h-5" />
+                                  </a>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  工厂价格 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  value={form.factoryPrice}
+                  onChange={(e) => setForm(prev => ({ ...prev, factoryPrice: e.target.value }))}
+                  className={`w-full rounded-md border ${errors.factoryPrice ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
+                  placeholder="请输入工厂价格"
+                  min="0"
+                  step="0.01"
+                />
+                {errors.factoryPrice && (
+                  <p className="mt-1 text-sm text-red-500">{errors.factoryPrice}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  税费
+                </label>
+                <input
+                  type="number"
+                  value={form.tax}
+                  onChange={(e) => setForm(prev => ({ ...prev, tax: e.target.value }))}
+                  className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                  placeholder="请输入税费"
+                  min="0"
+                  step="0.01"
+                />
               </div>
             </div>
+          </div>
 
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                颜色
-              </label>
-              <div className="space-y-2">
-                {form.specifications.colors.map((color, index) => (
-                  <div key={index} className="flex gap-2">
-                    <input
-                      type="text"
-                      value={color}
-                      onChange={(e) => {
-                        const newColors = [...form.specifications.colors];
-                        newColors[index] = e.target.value;
-                        setForm(prev => ({
-                          ...prev,
-                          specifications: { ...prev.specifications, colors: newColors }
-                        }));
-                      }}
-                      className="flex-1 rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
-                      placeholder="请输入颜色"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const newColors = form.specifications.colors.filter((_, i) => i !== index);
-                        setForm(prev => ({
-                          ...prev,
-                          specifications: { ...prev.specifications, colors: newColors }
-                        }));
-                      }}
-                      className="btn-outline px-2 py-2"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setForm(prev => ({
-                      ...prev,
-                      specifications: {
-                        ...prev.specifications,
-                        colors: [...prev.specifications.colors, '']
-                      }
-                    }));
-                  }}
-                  className="btn-outline flex items-center gap-2"
-                >
-                  <PlusCircle className="h-4 w-4" />
-                  添加颜色
-                </button>
+          {/* Specifications */}
+          <div className="rounded-lg border border-neutral-200 bg-white p-6">
+            <h2 className="mb-4 text-lg font-semibold text-neutral-800">规格信息</h2>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  尺寸规格
+                </label>
+                <input
+                  type="text"
+                  value={form.specifications.dimensions}
+                  onChange={(e) => setForm(prev => ({
+                    ...prev,
+                    specifications: { ...prev.specifications, dimensions: e.target.value }
+                  }))}
+                  className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                  placeholder="请输入尺寸规格，如：长度4.5米，收缩后110厘米"
+                />
               </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Production Information */}
-        <div className="rounded-lg border border-neutral-200 bg-white p-6">
-          <h2 className="mb-4 text-lg font-semibold text-neutral-800">生产信息</h2>
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                打样时间 <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={form.sampleTimeframe}
-                onChange={(e) => setForm(prev => ({ ...prev, sampleTimeframe: e.target.value }))}
-                className={`w-full rounded-md border ${errors.sampleTimeframe ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
-                placeholder="请输入打样时间"
-              />
-              {errors.sampleTimeframe && (
-                <p className="mt-1 text-sm text-red-500">{errors.sampleTimeframe}</p>
-              )}
-            </div>
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  重量
+                </label>
+                <input
+                  type="text"
+                  value={form.specifications.weight}
+                  onChange={(e) => setForm(prev => ({
+                    ...prev,
+                    specifications: { ...prev.specifications, weight: e.target.value }
+                  }))}
+                  className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                  placeholder="请输入重量，如：207克"
+                />
+              </div>
 
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                生产周期 <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={form.productionTimeframe}
-                onChange={(e) => setForm(prev => ({ ...prev, productionTimeframe: e.target.value }))}
-                className={`w-full rounded-md border ${errors.productionTimeframe ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
-                placeholder="请输入生产周期"
-              />
-              {errors.productionTimeframe && (
-                <p className="mt-1 text-sm text-red-500">{errors.productionTimeframe}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                最小起订量 <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                value={form.minimumOrderQuantity}
-                onChange={(e) => setForm(prev => ({ ...prev, minimumOrderQuantity: e.target.value }))}
-                className={`w-full rounded-md border ${errors.minimumOrderQuantity ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
-                placeholder="请输入最小起订量"
-                min="1"
-              />
-              {errors.minimumOrderQuantity && (
-                <p className="mt-1 text-sm text-red-500">{errors.minimumOrderQuantity}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                风险等级
-              </label>
-              <select
-                value={form.riskLevel}
-                onChange={(e) => setForm(prev => ({ ...prev, riskLevel: e.target.value as 'high' | 'medium' | 'low' }))}
-                className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
-              >
-                <option value="low">低风险</option>
-                <option value="medium">中等风险</option>
-                <option value="high">高风险</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        {/* Additional Information */}
-        <div className="rounded-lg border border-neutral-200 bg-white p-6">
-          <h2 className="mb-4 text-lg font-semibold text-neutral-800">补充信息</h2>
-          <div className="space-y-6">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                竞品链接
-              </label>
-              <input
-                type="text"
-                value={form.competitorLinks}
-                onChange={(e) => setForm(prev => ({ ...prev, competitorLinks: e.target.value }))}
-                className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
-                placeholder="请输入竞品链接，多个链接用逗号分隔"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                产品描述 <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                value={form.description}
-                onChange={(e) => setForm(prev => ({ ...prev, description: e.target.value }))}
-                className={`w-full rounded-md border ${errors.description ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
-                placeholder="请输入产品描述"
-                rows={4}
-              />
-              {errors.description && (
-                <p className="mt-1 text-sm text-red-500">{errors.description}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-700">
-                定制要求
-              </label>
-              <textarea
-                value={form.customizationRequirements}
-                onChange={(e) => setForm(prev => ({ ...prev, customizationRequirements: e.target.value }))}
-                className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
-                placeholder="请输入定制要求"
-                rows={4}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Product Images */}
-        <div className="rounded-lg border border-neutral-200 bg-white p-6">
-          <h2 className="mb-4 text-lg font-semibold text-neutral-800">产品图片</h2>
-          <div className="space-y-4">
-            <div className="flex gap-4">
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-                id="product-images"
-              />
-              <label
-                htmlFor="product-images"
-                className="btn-secondary flex items-center gap-2"
-              >
-                <Upload className="h-4 w-4" />
-                选择图片
-              </label>
-              <p className="text-sm text-neutral-500">
-                最多上传10张图片，支持jpg、png格式，可拖拽排序
-              </p>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-3">
-              {form.productImages.map((image, index) => (
-                <div
-                  key={index}
-                  className={`group relative aspect-square overflow-hidden rounded-lg border border-neutral-200 ${
-                    isDragging && dragIndex === index ? 'ring-2 ring-primary-500' : ''
-                  }`}
-                  draggable
-                  onDragStart={() => handleImageDragStart(index)}
-                  onDragOver={(e) => handleImageDragOver(e, index)}
-                  onDragEnd={handleImageDragEnd}
-                >
-                  <img
-                    src={image}
-                    alt={`产品图片 ${index + 1}`}
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0 flex flex-col justify-between bg-black bg-opacity-50 p-2 opacity-0 transition-opacity group-hover:opacity-100">
-                    <div className="flex justify-end">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  材质
+                </label>
+                <div className="space-y-2">
+                  {form.specifications.materials.map((material, index) => (
+                    <div key={index} className="flex gap-2">
+                      <input
+                        type="text"
+                        value={material}
+                        onChange={(e) => {
+                          const newMaterials = [...form.specifications.materials];
+                          newMaterials[index] = e.target.value;
+                          setForm(prev => ({
+                            ...prev,
+                            specifications: { ...prev.specifications, materials: newMaterials }
+                          }));
+                        }}
+                        className="flex-1 rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                        placeholder="请输入材质"
+                      />
                       <button
                         type="button"
-                        onClick={() => handleRemoveImage(index)}
-                        className="rounded-full bg-white p-1 text-red-500 hover:bg-red-50"
+                        onClick={() => {
+                          const newMaterials = form.specifications.materials.filter((_, i) => i !== index);
+                          setForm(prev => ({
+                            ...prev,
+                            specifications: { ...prev.specifications, materials: newMaterials }
+                          }));
+                        }}
+                        className="btn-outline px-2 py-2"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
                     </div>
-                    <div className="mt-2">
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setForm(prev => ({
+                        ...prev,
+                        specifications: {
+                          ...prev.specifications,
+                          materials: [...prev.specifications.materials, '']
+                        }
+                      }));
+                    }}
+                    className="btn-outline flex items-center gap-2"
+                  >
+                    <PlusCircle className="h-4 w-4" />
+                    添加材质
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  颜色
+                </label>
+                <div className="space-y-2">
+                  {form.specifications.colors.map((color, index) => (
+                    <div key={index} className="flex gap-2">
                       <input
                         type="text"
-                        value={imageAnnotations[index]}
-                        onChange={(e) => handleAnnotationChange(index, e.target.value)}
-                        className="w-full rounded-md border border-white bg-white bg-opacity-90 px-2 py-1 text-sm"
-                        placeholder="图片备注"
+                        value={color}
+                        onChange={(e) => {
+                          const newColors = [...form.specifications.colors];
+                          newColors[index] = e.target.value;
+                          setForm(prev => ({
+                            ...prev,
+                            specifications: { ...prev.specifications, colors: newColors }
+                          }));
+                        }}
+                        className="flex-1 rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                        placeholder="请输入颜色"
                       />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newColors = form.specifications.colors.filter((_, i) => i !== index);
+                          setForm(prev => ({
+                            ...prev,
+                            specifications: { ...prev.specifications, colors: newColors }
+                          }));
+                        }}
+                        className="btn-outline px-2 py-2"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setForm(prev => ({
+                        ...prev,
+                        specifications: {
+                          ...prev.specifications,
+                          colors: [...prev.specifications.colors, '']
+                        }
+                      }));
+                    }}
+                    className="btn-outline flex items-center gap-2"
+                  >
+                    <PlusCircle className="h-4 w-4" />
+                    添加颜色
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Production Information */}
+          <div className="rounded-lg border border-neutral-200 bg-white p-6">
+            <h2 className="mb-4 text-lg font-semibold text-neutral-800">生产信息</h2>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  打样时间 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={form.sampleTimeframe}
+                  onChange={(e) => setForm(prev => ({ ...prev, sampleTimeframe: e.target.value }))}
+                  className={`w-full rounded-md border ${errors.sampleTimeframe ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
+                  placeholder="请输入打样时间"
+                />
+                {errors.sampleTimeframe && (
+                  <p className="mt-1 text-sm text-red-500">{errors.sampleTimeframe}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  生产周期 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={form.productionTimeframe}
+                  onChange={(e) => setForm(prev => ({ ...prev, productionTimeframe: e.target.value }))}
+                  className={`w-full rounded-md border ${errors.productionTimeframe ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
+                  placeholder="请输入生产周期"
+                />
+                {errors.productionTimeframe && (
+                  <p className="mt-1 text-sm text-red-500">{errors.productionTimeframe}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  最小起订量 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  value={form.minimumOrderQuantity}
+                  onChange={(e) => setForm(prev => ({ ...prev, minimumOrderQuantity: e.target.value }))}
+                  className={`w-full rounded-md border ${errors.minimumOrderQuantity ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
+                  placeholder="请输入最小起订量"
+                  min="1"
+                />
+                {errors.minimumOrderQuantity && (
+                  <p className="mt-1 text-sm text-red-500">{errors.minimumOrderQuantity}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  风险等级
+                </label>
+                <select
+                  value={form.riskLevel}
+                  onChange={(e) => setForm(prev => ({ ...prev, riskLevel: e.target.value as 'high' | 'medium' | 'low' }))}
+                  className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                >
+                  <option value="low">低风险</option>
+                  <option value="medium">中等风险</option>
+                  <option value="high">高风险</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Information */}
+          <div className="rounded-lg border border-neutral-200 bg-white p-6">
+            <h2 className="mb-4 text-lg font-semibold text-neutral-800">补充信息</h2>
+            <div className="space-y-6">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  竞品链接
+                </label>
+                <input
+                  type="text"
+                  value={form.competitorLinks}
+                  onChange={(e) => setForm(prev => ({ ...prev, competitorLinks: e.target.value }))}
+                  className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                  placeholder="请输入竞品链接，多个链接用逗号分隔"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  产品描述 <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  value={form.description}
+                  onChange={(e) => setForm(prev => ({ ...prev, description: e.target.value }))}
+                  className={`w-full rounded-md border ${errors.description ? 'border-red-500' : 'border-neutral-300'} px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500`}
+                  placeholder="请输入产品描述"
+                  rows={4}
+                />
+                {errors.description && (
+                  <p className="mt-1 text-sm text-red-500">{errors.description}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-neutral-700">
+                  定制要求
+                </label>
+                <textarea
+                  value={form.customizationRequirements}
+                  onChange={(e) => setForm(prev => ({ ...prev, customizationRequirements: e.target.value }))}
+                  className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                  placeholder="请输入定制要求"
+                  rows={4}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Product Images */}
+          <div className="rounded-lg border border-neutral-200 bg-white p-6">
+            <h2 className="mb-4 text-lg font-semibold text-neutral-800">产品图片</h2>
+            <div className="space-y-4">
+              <div className="flex gap-4">
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                  id="product-images"
+                />
+                <label
+                  htmlFor="product-images"
+                  className="btn-secondary flex items-center gap-2"
+                >
+                  <Upload className="h-4 w-4" />
+                  选择图片
+                </label>
+                <p className="text-sm text-neutral-500">
+                  最多上传10张图片，支持jpg、png格式，可拖拽排序
+                </p>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-3">
+                {form.productImages.map((image, index) => (
+                  <div
+                    key={index}
+                    className={`group relative aspect-square overflow-hidden rounded-lg border border-neutral-200 ${
+                      isDragging && dragIndex === index ? 'ring-2 ring-primary-500' : ''
+                    }`}
+                    draggable
+                    onDragStart={() => handleImageDragStart(index)}
+                    onDragOver={(e) => handleImageDragOver(e, index)}
+                    onDragEnd={handleImageDragEnd}
+                  >
+                    <img
+                      src={image}
+                      alt={`产品图片 ${index + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex flex-col justify-between bg-black bg-opacity-50 p-2 opacity-0 transition-opacity group-hover:opacity-100">
+                      <div className="flex justify-end">
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(index)}
+                          className="rounded-full bg-white p-1 text-red-500 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div className="mt-2">
+                        <input
+                          type="text"
+                          value={imageAnnotations[index]}
+                          onChange={(e) => handleAnnotationChange(index, e.target.value)}
+                          className="w-full rounded-md border border-white bg-white bg-opacity-90 px-2 py-1 text-sm"
+                          placeholder="图片备注"
+                        />
+                      </div>
                     </div>
                   </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* AI Analysis Results */}
+          {analysisResult && (
+            <div className="rounded-lg border border-neutral-200 bg-white p-6">
+              <h2 className="mb-4 text-lg font-semibold text-neutral-800">AI分析结果</h2>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="mb-2 font-medium text-neutral-700">市场分析</h3>
+                  <p className="text-neutral-600">{analysisResult.marketAnalysis}</p>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* AI Analysis Results */}
-        {analysisResult && (
-          <div className="rounded-lg border border-neutral-200 bg-white p-6">
-            <h2 className="mb-4 text-lg font-semibold text-neutral-800">AI分析结果</h2>
-            <div className="space-y-4">
-              <div>
-                <h3 className="mb-2 font-medium text-neutral-700">市场分析</h3>
-                <p className="text-neutral-600">{analysisResult.marketAnalysis}</p>
-              </div>
-              <div>
-                <h3 className="mb-2 font-medium text-neutral-700">竞品分析</h3>
-                <p className="text-neutral-600">{analysisResult.competitorAnalysis}</p>
+                <div>
+                  <h3 className="mb-2 font-medium text-neutral-700">竞品分析</h3>
+                  <p className="text-neutral-600">{analysisResult.competitorAnalysis}</p>
+                </div>
               </div>
             </div>
+          )}
+
+          {/* Modals */}
+          {showEvaluationModal && renderEvaluationModal()}
+          {showSupplierModal && renderSupplierModal()}
+
+          {/* Submit Button */}
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="btn-primary flex items-center gap-2"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  提交中...
+                </>
+              ) : (
+                '提交'
+              )}
+            </button>
           </div>
-        )}
-
-        {/* Modals */}
-        {showEvaluationModal && renderEvaluationModal()}
-        {showSupplierModal && renderSupplierModal()}
-
-        {/* Submit Button */}
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="btn-primary flex items-center gap-2"
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                提交中...
-              </>
-            ) : (
-              '提交'
-            )}
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

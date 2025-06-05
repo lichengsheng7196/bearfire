@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Boxes, Loader2, RefreshCw } from 'lucide-react';
+import { Atom, Loader2, RefreshCw } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
 import toast from 'react-hot-toast';
 
@@ -43,23 +43,23 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-50 p-4">
-      <div className="w-full max-w-md rounded-lg border border-neutral-200 bg-white p-8 shadow-lg">
-        <div className="mb-6 flex items-center justify-center gap-2">
-          <Boxes className="h-12 w-12 text-primary-600" />
-          <h1 className="text-2xl font-bold text-primary-800">
-            BEARFIRE<span className="text-secondary-600">产品开发工作台</span>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100 p-4">
+      <div className="w-full max-w-md rounded-2xl border border-neutral-200 bg-white/90 p-10 shadow-2xl backdrop-blur-md animate-fade-in">
+        <div className="mb-8 flex flex-col items-center justify-center gap-3">
+          <span className="flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-500 via-purple-500 to-green-400 p-3 shadow-lg">
+            <Atom className="h-14 w-14 text-white drop-shadow-lg" />
+          </span>
+          <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-green-600 drop-shadow-md">
+            BEARFIRE<span className="ml-2 text-2xl font-bold text-green-600">产品开发工作台</span>
           </h1>
         </div>
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form onSubmit={handleLogin} className="space-y-7">
           <div>
-            <label htmlFor="username" className="label">
-              用户名
-            </label>
+            <label htmlFor="username" className="mb-1 block text-sm font-semibold text-neutral-700">用户名</label>
             <input
               id="username"
               type="text"
-              className="input w-full"
+              className="input w-full rounded-lg border border-neutral-300 px-4 py-2 text-base shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
               placeholder="请输入用户名"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -67,13 +67,11 @@ const LoginPage = () => {
             />
           </div>
           <div>
-            <label htmlFor="password" className="label">
-              密码
-            </label>
+            <label htmlFor="password" className="mb-1 block text-sm font-semibold text-neutral-700">密码</label>
             <input
               id="password"
               type="password"
-              className="input w-full"
+              className="input w-full rounded-lg border border-neutral-300 px-4 py-2 text-base shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
               placeholder="请输入密码"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -81,14 +79,12 @@ const LoginPage = () => {
             />
           </div>
           <div>
-            <label htmlFor="verificationCode" className="label">
-              验证码
-            </label>
+            <label htmlFor="verificationCode" className="mb-1 block text-sm font-semibold text-neutral-700">验证码</label>
             <div className="flex gap-2">
               <input
                 id="verificationCode"
                 type="text"
-                className="input w-full"
+                className="input w-full rounded-lg border border-neutral-300 px-4 py-2 text-base shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
                 placeholder="请输入验证码"
                 value={verificationCode}
                 onChange={(e) => setVerificationCode(e.target.value)}
@@ -97,7 +93,7 @@ const LoginPage = () => {
               <button
                 type="button"
                 onClick={refreshCode}
-                className="flex h-10 w-32 items-center justify-center rounded-md bg-neutral-100 font-mono text-lg font-bold text-neutral-800 hover:bg-neutral-200 select-none"
+                className="flex h-12 w-28 items-center justify-center rounded-lg bg-gradient-to-tr from-blue-100 via-purple-100 to-green-100 font-mono text-lg font-bold text-neutral-800 hover:bg-blue-50 select-none border border-neutral-200 shadow-sm transition"
                 title="点击刷新验证码"
               >
                 {code}
@@ -107,12 +103,12 @@ const LoginPage = () => {
           </div>
           <button
             type="submit"
-            className="btn-primary w-full"
+            className="w-full rounded-lg bg-gradient-to-r from-blue-600 via-purple-600 to-green-500 py-3 text-lg font-bold text-white shadow-lg transition hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 disabled:opacity-60"
             disabled={isLoading}
           >
             {isLoading ? (
               <div className="flex items-center justify-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin" />
                 <span>登录中...</span>
               </div>
             ) : (

@@ -10,35 +10,41 @@ const mockUsers = [
 
 const UserManagementPage: React.FC = () => {
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded shadow mt-8">
-      <h2 className="text-2xl font-bold mb-6">用户管理</h2>
-      <table className="w-full border text-sm">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-3 py-2">姓名</th>
-            <th className="border px-3 py-2">用户名</th>
-            <th className="border px-3 py-2">邮箱</th>
-            <th className="border px-3 py-2">角色</th>
-            <th className="border px-3 py-2">状态</th>
-            <th className="border px-3 py-2">操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          {mockUsers.map(user => (
-            <tr key={user.id}>
-              <td className="border px-3 py-2">{user.name}</td>
-              <td className="border px-3 py-2">{user.username}</td>
-              <td className="border px-3 py-2">{user.email}</td>
-              <td className="border px-3 py-2">{user.role}</td>
-              <td className="border px-3 py-2">{user.status}</td>
-              <td className="border px-3 py-2">
-                <button className="px-2 py-1 bg-blue-500 text-white rounded text-xs mr-2">编辑</button>
-                <button className="px-2 py-1 bg-red-500 text-white rounded text-xs">禁用</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="mx-auto max-w-4xl p-6">
+      <div className="rounded-2xl bg-white/80 shadow-2xl backdrop-blur-md p-8 animate-fade-in">
+        <h2 className="mb-8 text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-green-600 drop-shadow-md">用户管理</h2>
+        <div className="overflow-x-auto rounded-2xl bg-white/90 shadow-xl">
+          <table className="min-w-full divide-y divide-neutral-200">
+            <thead>
+              <tr className="bg-neutral-50">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">姓名</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">用户名</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">邮箱</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">角色</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">状态</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">操作</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-neutral-200 bg-white/80">
+              {mockUsers.map(user => (
+                <tr key={user.id} className="hover:bg-blue-50/40 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-800">{user.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-800">{user.username}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-800">{user.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-800">{user.role}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <span className={`badge ${user.status === '启用' ? 'badge-success' : 'badge-error'}`}>{user.status}</span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <button className="rounded-lg bg-gradient-to-r from-blue-500 to-green-400 text-white px-3 py-1 text-xs font-semibold shadow mr-2 transition hover:scale-105 hover:shadow-lg">编辑</button>
+                    <button className="rounded-lg bg-gradient-to-r from-red-500 to-pink-400 text-white px-3 py-1 text-xs font-semibold shadow transition hover:scale-105 hover:shadow-lg">禁用</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

@@ -878,73 +878,77 @@ const ProductPoolDetailPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <div className="mb-6 flex items-center gap-4">
-        <button
-          onClick={() => navigate('/product-pool')}
-          className="btn-outline flex items-center gap-2"
-        >
-          <ArrowLeft size={16} />
-          <span>返回</span>
-        </button>
-        <h1 className="text-2xl font-bold text-neutral-800">产品详情</h1>
-      </div>
-
-      {renderProductDetails()}
-
-      {/* Action Modal */}
-      {showActionModal && currentAction && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="w-full max-w-md rounded-lg bg-white p-6">
-            <h3 className="mb-4 text-lg font-semibold text-neutral-800">
-              {currentAction.title}
-            </h3>
-            {/* Modal content based on action type */}
-            {currentAction.type === 'review' && (
-              <div className="space-y-4">
-                <textarea
-                  value={reviewContent}
-                  onChange={(e) => setReviewContent(e.target.value)}
-                  placeholder="请输入评审意见..."
-                  className="w-full rounded-lg border border-neutral-200 p-3 focus:border-primary-500 focus:outline-none"
-                  rows={4}
-                />
-                <div className="flex justify-end gap-2">
-                  <button
-                    onClick={() => setShowActionModal(false)}
-                    className="btn-outline"
-                    disabled={submitting}
-                  >
-                    取消
-                  </button>
-                  <button
-                    onClick={handleAddReview}
-                    className="btn-primary"
-                    disabled={submitting}
-                  >
-                    {submitting ? '提交中...' : '提交'}
-                  </button>
-                </div>
-              </div>
-            )}
-            {/* Add other modal types as needed */}
+    <div className="mx-auto max-w-5xl p-4">
+      <div className="rounded-2xl bg-white/80 shadow-2xl backdrop-blur-md p-8 animate-fade-in">
+        <h1 className="mb-8 text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-green-600 drop-shadow-md">产品详情</h1>
+        <div className="container mx-auto px-4 py-6">
+          <div className="mb-6 flex items-center gap-4">
+            <button
+              onClick={() => navigate('/product-pool')}
+              className="btn-outline flex items-center gap-2"
+            >
+              <ArrowLeft size={16} />
+              <span>返回</span>
+            </button>
           </div>
-        </div>
-      )}
 
-      {/* Image Preview Modal */}
-      {selectedImage && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
-          onClick={() => setSelectedImage(null)}
-        >
-          <img
-            src={selectedImage}
-            alt="产品图片预览"
-            className="max-h-[90vh] max-w-[90vw] object-contain"
-          />
+          {renderProductDetails()}
+
+          {/* Action Modal */}
+          {showActionModal && currentAction && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="w-full max-w-md rounded-lg bg-white p-6">
+                <h3 className="mb-4 text-lg font-semibold text-neutral-800">
+                  {currentAction.title}
+                </h3>
+                {/* Modal content based on action type */}
+                {currentAction.type === 'review' && (
+                  <div className="space-y-4">
+                    <textarea
+                      value={reviewContent}
+                      onChange={(e) => setReviewContent(e.target.value)}
+                      placeholder="请输入评审意见..."
+                      className="w-full rounded-lg border border-neutral-200 p-3 focus:border-primary-500 focus:outline-none"
+                      rows={4}
+                    />
+                    <div className="flex justify-end gap-2">
+                      <button
+                        onClick={() => setShowActionModal(false)}
+                        className="btn-outline"
+                        disabled={submitting}
+                      >
+                        取消
+                      </button>
+                      <button
+                        onClick={handleAddReview}
+                        className="btn-primary"
+                        disabled={submitting}
+                      >
+                        {submitting ? '提交中...' : '提交'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {/* Add other modal types as needed */}
+              </div>
+            </div>
+          )}
+
+          {/* Image Preview Modal */}
+          {selectedImage && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
+              onClick={() => setSelectedImage(null)}
+            >
+              <img
+                src={selectedImage}
+                alt="产品图片预览"
+                className="max-h-[90vh] max-w-[90vw] object-contain"
+              />
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

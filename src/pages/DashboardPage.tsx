@@ -267,9 +267,9 @@ const DashboardPage = () => {
     if (user?.role !== 'operations_manager' && user?.role !== 'admin') return null;
     
     return (
-      <Link to="/requirements/create" className="flex items-center gap-2 rounded-md border border-primary-300 bg-primary-50 p-4 shadow-sm transition-all hover:bg-primary-100">
-        <PlusCircle className="h-6 w-6 text-primary-600" />
-        <span className="text-sm font-medium text-primary-700">创建新需求</span>
+      <Link to="/requirements/create" className="flex items-center gap-2 rounded-2xl border border-primary-300 bg-primary-50 p-6 shadow-xl backdrop-blur-md transition-all hover:bg-primary-100">
+        <PlusCircle className="h-7 w-7 text-primary-600" />
+        <span className="text-base font-semibold text-primary-700">创建新需求</span>
       </Link>
     );
   };
@@ -279,9 +279,9 @@ const DashboardPage = () => {
     if (user?.role !== 'product_manager' && user?.role !== 'admin') return null;
     
     return (
-      <Link to="/product-pool/create" className="flex items-center gap-2 rounded-md border border-secondary-300 bg-secondary-50 p-4 shadow-sm transition-all hover:bg-secondary-100">
-        <PlusCircle className="h-6 w-6 text-secondary-600" />
-        <span className="text-sm font-medium text-secondary-700">创建新选品</span>
+      <Link to="/product-pool/create" className="flex items-center gap-2 rounded-2xl border border-secondary-300 bg-secondary-50 p-6 shadow-xl backdrop-blur-md transition-all hover:bg-secondary-100">
+        <PlusCircle className="h-7 w-7 text-secondary-600" />
+        <span className="text-base font-semibold text-secondary-700">创建新选品</span>
       </Link>
     );
   };
@@ -299,54 +299,54 @@ const DashboardPage = () => {
 
   return (
     <div className="mx-auto max-w-7xl">
-      <h1 className="mb-6 text-2xl font-bold text-neutral-800">欢迎，{user?.name}</h1>
+      <h1 className="mb-8 text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-green-600 drop-shadow-md animate-fade-in">欢迎，{user?.name}</h1>
       
       {/* Quick actions */}
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {renderOperationsManagerActions()}
         {renderProductManagerActions()}
-        <Link to="/product-pool" className="flex items-center gap-2 rounded-md border border-neutral-300 bg-white p-4 shadow-sm transition-all hover:bg-neutral-50">
-          <Boxes className="h-6 w-6 text-neutral-600" />
-          <span className="text-sm font-medium text-neutral-700">查看选品池</span>
+        <Link to="/product-pool" className="flex items-center gap-2 rounded-2xl border border-neutral-200 bg-white/80 p-6 shadow-xl backdrop-blur-md transition-all hover:scale-105 hover:shadow-2xl">
+          <Boxes className="h-7 w-7 text-blue-600" />
+          <span className="text-base font-semibold text-neutral-800">查看选品池</span>
         </Link>
-        <Link to="/requirements" className="flex items-center gap-2 rounded-md border border-neutral-300 bg-white p-4 shadow-sm transition-all hover:bg-neutral-50">
-          <FileText className="h-6 w-6 text-neutral-600" />
-          <span className="text-sm font-medium text-neutral-700">查看需求列表</span>
+        <Link to="/requirements" className="flex items-center gap-2 rounded-2xl border border-neutral-200 bg-white/80 p-6 shadow-xl backdrop-blur-md transition-all hover:scale-105 hover:shadow-2xl">
+          <FileText className="h-7 w-7 text-green-600" />
+          <span className="text-base font-semibold text-neutral-800">查看需求列表</span>
         </Link>
       </div>
       
       {/* Stats */}
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-lg border border-neutral-200 bg-white p-6 shadow-sm">
+      <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="rounded-2xl border border-neutral-200 bg-gradient-to-br from-blue-100 via-white to-purple-100 p-8 shadow-xl backdrop-blur-md">
           <div className="flex items-center gap-2">
-            <Boxes className="h-5 w-5 text-primary-600" />
-            <h3 className="text-sm font-medium text-neutral-700">总产品数量</h3>
+            <Boxes className="h-6 w-6 text-blue-600" />
+            <h3 className="text-base font-semibold text-neutral-700">总产品数量</h3>
           </div>
-          <p className="mt-2 text-3xl font-bold text-neutral-900">{totalProducts}</p>
+          <p className="mt-2 text-4xl font-extrabold text-neutral-900">{totalProducts}</p>
         </div>
         
-        <div className="rounded-lg border border-neutral-200 bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border border-neutral-200 bg-gradient-to-br from-green-100 via-white to-blue-100 p-8 shadow-xl backdrop-blur-md">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-5 w-5 text-success-600" />
-            <h3 className="text-sm font-medium text-neutral-700">已上架产品</h3>
+            <CheckCircle2 className="h-6 w-6 text-green-600" />
+            <h3 className="text-base font-semibold text-neutral-700">已上架产品</h3>
           </div>
-          <p className="mt-2 text-3xl font-bold text-neutral-900">{completedProducts}</p>
+          <p className="mt-2 text-4xl font-extrabold text-neutral-900">{completedProducts}</p>
         </div>
         
-        <div className="rounded-lg border border-neutral-200 bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border border-neutral-200 bg-gradient-to-br from-purple-100 via-white to-green-100 p-8 shadow-xl backdrop-blur-md">
           <div className="flex items-center gap-2">
-            <Clock className="h-5 w-5 text-secondary-600" />
-            <h3 className="text-sm font-medium text-neutral-700">进行中产品</h3>
+            <Clock className="h-6 w-6 text-purple-600" />
+            <h3 className="text-base font-semibold text-neutral-700">进行中产品</h3>
           </div>
-          <p className="mt-2 text-3xl font-bold text-neutral-900">{inProgress}</p>
+          <p className="mt-2 text-4xl font-extrabold text-neutral-900">{inProgress}</p>
         </div>
         
-        <div className="rounded-lg border border-neutral-200 bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border border-neutral-200 bg-gradient-to-br from-yellow-100 via-white to-blue-100 p-8 shadow-xl backdrop-blur-md">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-warning-600" />
-            <h3 className="text-sm font-medium text-neutral-700">待评审产品</h3>
+            <AlertTriangle className="h-6 w-6 text-yellow-600" />
+            <h3 className="text-base font-semibold text-neutral-700">待评审产品</h3>
           </div>
-          <p className="mt-2 text-3xl font-bold text-neutral-900">{pendingReview}</p>
+          <p className="mt-2 text-4xl font-extrabold text-neutral-900">{pendingReview}</p>
         </div>
       </div>
       
@@ -433,40 +433,28 @@ const DashboardPage = () => {
       </div>
       
       {/* Recent products */}
-      <div className="mt-8">
+      <div className="mt-10">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-semibold text-neutral-800">最近添加的产品</h2>
-          <Link to="/product-pool" className="text-sm text-primary-600 hover:text-primary-700">
-            查看全部
-          </Link>
+          <h2 className="text-2xl font-bold text-neutral-800">最近添加的产品</h2>
+          <Link to="/product-pool" className="text-sm font-semibold text-blue-600 hover:text-blue-700">查看全部</Link>
         </div>
         
-        <div className="overflow-x-auto rounded-lg border border-neutral-200">
+        <div className="overflow-x-auto rounded-2xl border border-neutral-200 bg-white/80 shadow-xl backdrop-blur-md">
           <table className="min-w-full divide-y divide-neutral-200">
             <thead>
               <tr className="bg-neutral-50">
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">
-                  产品名称
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">
-                  分类
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">
-                  创建人
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">
-                  创建时间
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">
-                  状态
-                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">产品名称</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">分类</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">创建人</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">创建时间</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutral-600">状态</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-200 bg-white">
+            <tbody className="divide-y divide-neutral-200 bg-white/80">
               {getRecentProducts().map((product) => (
-                <tr key={product.id} className="transition-colors hover:bg-neutral-50">
+                <tr key={product.id} className="transition-colors hover:bg-blue-50/40">
                   <td className="whitespace-nowrap px-6 py-4">
-                    <Link to={`/product-pool/${product.id}`} className="font-medium text-primary-600 hover:text-primary-700">
+                    <Link to={`/product-pool/${product.id}`} className="font-medium text-blue-700 hover:text-blue-900">
                       {product.productName}
                     </Link>
                   </td>
@@ -479,15 +467,9 @@ const DashboardPage = () => {
                     {product.category === 'fishing_accessory' && '渔具配件'}
                     {product.category === 'fishing_apparel' && '钓鱼服饰'}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm text-neutral-600">
-                    {product.createdBy.name}
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm text-neutral-600">
-                    {formatRelativeTime(product.createdAt)}
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <StatusBadge status={product.workflowStatus} />
-                  </td>
+                  <td className="whitespace-nowrap px-6 py-4 text-sm text-neutral-600">{product.createdBy.name}</td>
+                  <td className="whitespace-nowrap px-6 py-4 text-sm text-neutral-600">{formatRelativeTime(product.createdAt)}</td>
+                  <td className="whitespace-nowrap px-6 py-4"><StatusBadge status={product.workflowStatus} /></td>
                 </tr>
               ))}
             </tbody>

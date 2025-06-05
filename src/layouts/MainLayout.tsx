@@ -10,7 +10,8 @@ import {
   FileText,
   Users,
   Truck,
-  Home
+  Home,
+  Atom
 } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
 
@@ -43,21 +44,18 @@ const MainLayout = () => {
   const canAccessUserManagement = user?.role === 'admin';
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-100 via-white to-purple-100">
       {/* Header */}
-      <header className="border-b border-neutral-200 bg-white shadow-sm">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <header className="border-b border-neutral-200 bg-white/80 shadow-md backdrop-blur-md">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo and title */}
-          <div className="flex items-center">
-            <button 
-              className="mr-2 rounded-md p-2 text-neutral-500 hover:bg-neutral-100 lg:hidden"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+          <div className="flex items-center gap-3">
+            <span className="flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-500 via-purple-500 to-green-400 p-2 shadow-lg">
+              <Atom className="h-10 w-10 text-white drop-shadow-lg" />
+            </span>
             <Link to="/" className="flex items-center gap-2">
-              <Boxes className="h-8 w-8 text-primary-600" />
-              <span className="text-xl font-bold text-primary-800">BEARFIRE<span className="text-secondary-600">产品开发工作台</span></span>
+              <span className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-green-600 drop-shadow-md">BEARFIRE</span>
+              <span className="ml-2 text-2xl font-bold text-green-600">产品开发工作台</span>
             </Link>
           </div>
 
@@ -115,8 +113,8 @@ const MainLayout = () => {
         {/* Sidebar - Mobile */}
         {isMobileMenuOpen && (
           <div className="fixed inset-0 z-40 lg:hidden">
-            <div className="fixed inset-0 bg-neutral-600 bg-opacity-75\" onClick={() => setIsMobileMenuOpen(false)}></div>
-            <div className="relative flex h-full w-60 max-w-xs flex-col overflow-y-auto bg-white pb-4 pt-5">
+            <div className="fixed inset-0 bg-neutral-600 bg-opacity-60 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
+            <div className="relative flex h-full w-60 max-w-xs flex-col overflow-y-auto bg-white/90 rounded-r-2xl shadow-2xl pb-4 pt-5 animate-slide-in">
               <div className="flex items-center justify-between px-4">
                 <div className="flex items-center">
                   <Boxes className="h-8 w-8 text-primary-600" />
@@ -185,7 +183,7 @@ const MainLayout = () => {
         )}
 
         {/* Sidebar - Desktop */}
-        <div className="hidden w-64 flex-shrink-0 border-r border-neutral-200 bg-white lg:block">
+        <div className="hidden w-64 flex-shrink-0 border-r border-neutral-200 bg-white/90 rounded-r-2xl shadow-2xl lg:block">
           <nav className="mt-8 flex flex-col gap-1 px-4">
             <Link
               to="/"
@@ -239,9 +237,11 @@ const MainLayout = () => {
           </nav>
         </div>
 
-        {/* Main content */}
-        <main className="flex-1 overflow-y-auto bg-neutral-50 p-4 sm:p-6 lg:p-8">
-          <Outlet />
+        {/* Main content area */}
+        <main className="flex-1 p-6 md:p-10">
+          <div className="mx-auto w-full max-w-6xl rounded-2xl bg-white/80 p-8 shadow-2xl backdrop-blur-md animate-fade-in min-h-[80vh]">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
